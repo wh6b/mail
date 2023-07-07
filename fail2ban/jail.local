@@ -1,0 +1,37 @@
+[DEFAULT]
+ignoreip = 1..2.3.4
+
+loglevel = DEBUG
+bantime = 12h
+findtime = 1d
+maxretry = 4
+banaction = iptables-allports
+
+
+[mysshd]
+enabled = true
+filter = sshd
+port = 22
+logpath = %(sshd_log)s
+
+
+[myexim]
+enabled = true
+# see filter.d/exim.conf for further modes supported from filter:
+#mode = normal
+port   = smtp,465,submission
+filter = exim
+logpath = /home/youruser/mail/exim/data/log/mainlog
+maxretry = 20
+bantime = 4m
+findtime = 1w
+
+[mydovecot]
+enabled = true
+port = 25,imaps,submission,465,587,993
+filter = mydovecot
+logpath = /home/youruser/mail/exim/data/log/dovecot.log
+loglevel = debug
+maxretry = 15
+bantime = 4m
+findtime = 1w
