@@ -1,0 +1,14 @@
+#!/bin/sh
+
+POD=https
+
+if [ "$1" = "create" ];then
+	podman pod create --name=$POD --infra-name=pod_${POD} -p 443:443 --network slirp4netns:port_handler=slirp4netns,allow_host_loopback=true,enable_ipv6=false   \
+	&& podman pod inspect $POD
+elif [ "$1" = "delete" ];then
+	podman pod rm $POD || echo "Pod $POD does not exists." && exit 1
+	podman pod exists $POD && echo "Pod $POD still exists." || echo "Pod $POD deleted."
+else
+	echo "Usage: $0 [create|delete]"
+	exit 1
+fi
